@@ -4,7 +4,6 @@ import com.app.domain.enums.TransactionType;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,7 +12,8 @@ public class Transaction {
 
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY for MYSql which is auto incremented
-    private Long transactionId;
+   @Column(name = "id")
+    private Long id;
 
    @NotNull
     private Double amount;
@@ -48,8 +48,8 @@ public class Transaction {
         this.user = user;
     }
 
-    public Long getTransactionId() {
-        return transactionId;
+    public Long getId() {
+        return id;
     }
 
     public Double getAmount() {

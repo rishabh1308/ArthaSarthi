@@ -73,3 +73,8 @@ public class TransactionResponse {
     }
 
 }
+
+// DTO structure is usually DB <-> Entity <-> Service <-> DTO <-> Client
+
+// DTO is a temporary object to send data to client.
+

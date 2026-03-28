@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -21,8 +20,7 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
+    private UserRepository userRepository ;
     // Commit-Rollback / Maintain Atomicity
     @Transactional
     public TransactionResponse addTransaction(TransactionRequest request){
@@ -49,7 +47,7 @@ public class TransactionService {
         // Response DTO
 
         TransactionResponse response = new TransactionResponse();
-        response.setTransactionId(saved.getTransactionId());
+        response.setTransactionId(saved.getId());
         response.setTransactionDate(saved.getTransactionDate());
         response.setType(saved.getType());
         response.setAmount(saved.getAmount());
