@@ -47,6 +47,8 @@ public class AnalysisService {
 
         RiskLevel riskLevel = calculateRisk(income, expense);
 
+        saveFinancialProfile(userId, income, expense, savings, riskLevel);
+
         AnalysisResponse response = new AnalysisResponse();
 
         response.setTotalIncome(income);
