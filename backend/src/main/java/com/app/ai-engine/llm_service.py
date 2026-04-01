@@ -10,7 +10,7 @@ load_dotenv()
 
 llm = ChatOpenAI(model="gpt-5-nano", temperature=0.3) # making the model more factual since temp is between 0.0-0.3
 
-def generate_response(context, query, profile):
+def generate_response(context, query, profile, trend):
 
     prompt = f'''
     
@@ -20,9 +20,16 @@ def generate_response(context, query, profile):
     
     Past context: {context}
     
+    Computed Trend : {trend}
+    
     Query/Question : {query}
     
-    Make it brief, precise and crisp for further assistance.
+    Instructions:
+    - use trend data explicitly
+    - compare past vs present numerically
+    - Give clear actionable advice
+    - Be precise not vague
+`   - Make it brief, precise and crisp for further assistance.
 
     '''
 
