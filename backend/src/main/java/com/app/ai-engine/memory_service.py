@@ -1,3 +1,5 @@
+import time
+
 from vector_store import vector_DB
 
 def store_financial_profile(user_id, income, expense, savings, risk):
@@ -24,7 +26,12 @@ def store_chat_memory(user_id, query, profile, response):
 
     vector_DB.add_texts(
         [text],
-        metadatas=[ {"user_id": user_id} ]
+        metadatas=[
+            {
+                "user_id": user_id,
+                "timestamp":time.time()
+             }
+        ]
     )
 
 '''

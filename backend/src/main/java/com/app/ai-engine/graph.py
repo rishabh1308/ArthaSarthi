@@ -1,5 +1,5 @@
 from langgraph.graph import StateGraph
-from retriever import retrieve_context
+from retriever import  retrieve_records
 from llm_service import generate_response
 from trend_service import analyse_trend
 
@@ -8,7 +8,7 @@ def build_graph():
     def retrieve_node(state):
        return {
            **state, # unpacks state dictionary into its keyword arguments automatically.
-           "context": retrieve_context(state["query"], state["user_id"])
+           "context": retrieve_records(state["user_id"])
        }
 
     def trend_node(state):
@@ -21,7 +21,9 @@ def build_graph():
         }
 
     def llm_node(state):
+
         return {
+            **state,
             "response": generate_response(state["context"], state["query"], state["profile"],state["trend"])
         }
 
