@@ -5,6 +5,8 @@ import com.app.domain.entity.Transaction;
 import com.app.domain.entity.User;
 import com.app.domain.enums.RiskLevel;
 import com.app.dto.AnalysisResponse;
+import com.app.dto.AssetDTO;
+import com.app.dto.FinancialProfileDTO;
 import com.app.exceptions.ResourceNotFoundException;
 import com.app.repository.FinancialProfileRepository;
 import com.app.repository.TransactionRepository;
@@ -12,11 +14,10 @@ import com.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 
 import static com.app.domain.enums.TransactionType.EXPENSE;
-import static com.app.domain.enums.TransactionType.INCOME;
 
 @Service
 public class AnalysisService {
@@ -29,6 +30,7 @@ public class AnalysisService {
 
     @Autowired
     private UserRepository userRepository;
+
 
     public AnalysisResponse analyse(Long userId){
         List<Transaction> transactions = transactionRepository.findByUserId(userId);
@@ -73,11 +75,11 @@ public class AnalysisService {
 
     }
 
-    private void saveFinancialProfile(Long userId, double income, double expense, double savings, RiskLevel riskLevel){
+    private void saveFinancialProfile(Long userId, double income, double expense, double savings, RiskLevel riskLevel) {
         // deactivating older Financial Profile
         financialProfileRepository
                 .findUserByUserIdAndIsActiveTrue(userId)
-                .ifPresent(financialProfile ->{
+                .ifPresent(financialProfile -> {
                     financialProfile.setActive(false);
                     financialProfileRepository.save(financialProfile);
                 });
@@ -89,7 +91,7 @@ public class AnalysisService {
 
         FinancialProfile profile = new FinancialProfile();
         User user = userRepository.findById(userId)
-                .orElseThrow(()->new ResourceNotFoundException("user not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("user not found"));
 
         profile.setActive(true);
         profile.setSavings(savings);
@@ -99,6 +101,46 @@ public class AnalysisService {
         profile.setUser(user);
 
         financialProfileRepository.save(profile);
+
+    }
+
+    public FinancialProfileDTO mapToDTO(FinancialProfile financialProfile){
+
+        FinancialProfileDTO dto = new FinancialProfileDTO();
+        dto.setIncome(financialProfile.getIncome());
+        dto.setExpenses(financialProfile.getExpenses());
+        dto.setSavings(financialProfile.getSavings());
+        dto.setRiskLevel(financialProfile.getRiskProfile().name());
+        dto.setAssets(buildAssets(financialProfile.getUser().getId()));
+
+        return dto;
+    }
+
+    List<AssetDTO> buildAssets(Long userId){
+
+        List<Transaction> transactions = transactionRepository.findByUserId(userId);
+        Map<String, Double> assetMap = new HashMap<>();
+
+        for(Transaction transaction: transactions){
+            if(transaction.getType() == EXPENSE) continue;
+            String category = transaction.getCategory()==null?"": transaction.getCategory();
+            String description = transaction.getDescription() == null? "" : transaction.getDescription();
+
+            String combined = category + " " + description;
+
+            String assetType = AssetDetectionService.detectAssetType(combined);
+
+            if(assetType.equals("unknown")) continue;
+
+            assetMap.put(assetType, assetMap.getOrDefault(assetType, 0.0)+ transaction.getAmount());
+        }
+
+        List<AssetDTO> assets = new ArrayList<>();
+        for(Map.Entry<String, Double> entry: assetMap.entrySet()){
+            assets.add(new AssetDTO(entry.getKey(), entry.getValue()));
+        }
+
+        return assets;
 
     }
 
