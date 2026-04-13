@@ -12,7 +12,16 @@ def store_financial_profile(user_id, income, expense, savings, risk):
     risk->{risk}          
     """
 
-    vector_DB.add_texts([text])
+    vector_DB.add_texts([text],
+                        metadatas=[{
+                        "user_id": user_id,
+                        "income": income,
+                        "expense":expense,
+                        "savings":savings,
+                        "risk":risk,
+                        "timestamp": time.time()
+                        }]
+                        )
 
 def store_chat_memory(user_id, query, profile, response):
 
@@ -29,6 +38,10 @@ def store_chat_memory(user_id, query, profile, response):
         metadatas=[
             {
                 "user_id": user_id,
+                "income": profile.get("income"),
+                "expense": profile.get("expense"),
+                "savings": profile.get("savings"),
+                "assets": profile.get("assets",[]),
                 "timestamp":time.time()
              }
         ]

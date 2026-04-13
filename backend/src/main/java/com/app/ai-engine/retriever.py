@@ -1,20 +1,23 @@
 from vector_store import vector_DB
 
 
-def retrieve_records( user_id):
+def retrieve_records(user_id, limit = 5):
 
 
     docs = vector_DB.get(where={"user_id":user_id})
 
-    combined = list(zip(docs["documents"], docs["metadatas"]))
+    documents = docs.get('documents',[])
+    metadatas = documents.get('metadata',[])
 
-    valid_records = [(doc, meta) for doc, meta in combined if "timestamp" in meta]
+    combined = list(zip(documents, metadatas))
 
-    sorted_docs = sorted(
-        valid_records, key = lambda x: x[1].get("timestamp",0)
+    valid_records = [meta for doc, meta in combined if "timestamp" in meta]
+
+    sorted_records = sorted(
+        valid_records, key = lambda x: x.get("timestamp",0)
     )
 
-    return [doc for doc, _ in sorted_docs]
+    return sorted_records[-limit:]
 
 
     # return "\n\n".join( doc.page_content for doc in docs)
