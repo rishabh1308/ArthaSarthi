@@ -1,0 +1,55 @@
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: arthasarthi-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - AI_SERVICE_URL=http://ai-engine:8000/chat
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/ArthaSarthi?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ai-engine:
+        condition: service_started
+    restart: always
+
+  ai-engine:
+    build:
+      context: ./ai-engine
+      dockerfile: Dockerfile
+    container_name: arthasarthi-ai-engine
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - chroma_data:/app/chroma_db
+    restart: always
+
+  mysql:
+    image: mysql:8
+    container_name: arthasarthi-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ArthaSarthi
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  chroma_data:
+  mysql_data:

@@ -16,3 +16,6 @@ spring:
   ai:
     service:
       url: http://localhost:8080/chat
+
+  jwt:
+    secret: ${JWT_SECRET}
