@@ -1,13 +1,15 @@
-package com.app.dto;
+package com.app.dto.request;
 
-import java.util.List;
+import com.app.domain.enums.RiskLevel;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class FinancialProfileDTO {
+public class FinancialProfileRequestDTO {
+
     private Double income;
     private Double expenses;
     private Double savings;
-    private String riskLevel;
-    private List<AssetDTO> assets;
+    @JsonProperty("riskLevel")
+    private RiskLevel riskLevel;
 
     public Double getIncome() {
         return income;
@@ -33,19 +35,11 @@ public class FinancialProfileDTO {
         this.savings = savings;
     }
 
-    public String getRiskLevel() {
+    public RiskLevel getRiskLevel() {
         return riskLevel;
     }
 
-    public void setRiskLevel(String riskLevel) {
+    public void setRiskLevel(RiskLevel riskLevel) {
         this.riskLevel = riskLevel;
-    }
-
-    public List<AssetDTO> getAssets() {
-        return assets;
-    }
-
-    public void setAssets(List<AssetDTO> assets) {
-        this.assets = assets;
     }
 }

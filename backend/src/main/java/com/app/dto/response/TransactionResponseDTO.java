@@ -1,11 +1,11 @@
-package com.app.dto;
+package com.app.dto.response;
 
 import com.app.domain.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
-public class TransactionResponse {
+public class TransactionResponseDTO {
 
     private Long transactionId;
     private Double amount;

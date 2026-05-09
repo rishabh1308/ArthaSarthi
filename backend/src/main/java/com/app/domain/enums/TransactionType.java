@@ -8,20 +8,22 @@ public enum TransactionType {
 
 //  earlier ->  INCOME, EXPENSE;
 
-    INCOME{
-        @Override
-        public double apply(double current, double amount){
-            return current + amount;
-        }
-    },
+//    INCOME{
+//        @Override
+//        public double apply(double current, double amount){
+//            return current + amount;
+//        }
+//    },
+//
+//    EXPENSE{
+//        @Override
+//        public double apply(double current, double amount){
+//            return current + amount;
+//        }
+//    };
+//
+//    public abstract double apply(double current, double amount);
 
-    EXPENSE{
-        @Override
-        public double apply(double current, double amount){
-            return current + amount;
-        }
-    };
-
-    public abstract double apply(double current, double amount);
+    CREDIT, DEBIT
 
 }

@@ -30,7 +30,7 @@ public class FinancialProfile {
     private LocalDateTime createdAt;
 
     //Different financial profiles over History.
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 

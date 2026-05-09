@@ -6,65 +6,97 @@ class DataInsufficientError(Exception):
 
 
 
-def extract_financials(text):
+# def extract_financials(record):
+#
+#         '''
+#
+#         The commented out steps were giving pattern discrepancy, overall matching
+#         was correct , but the starting structure was from 0,0,0 and not given
+#         financial data.
+#         '''
+#
+#         metadata = record.get("metadata")
+#         income = record.get("income")
+#         expense = record.get("expense")
+#         savings = record.get("savings")
+#
+#         # matches = re.findall(
+#         #     r"Income:\s*(\d).*Expense:\s*(\d).*Savings:\s*(\d).*",
+#         #     text,
+#         #     re.DOTALL
+#         # )
+#         #
+#         # return  [(float(i), float(e), float(s)) for i,e,s in matches]
+#
+#         # if not income or not expense or not savings:
+#         #     return None
+#
+#         if income is None  or expense is None or savings is None:
+#             raise DataInsufficientError("Invalid financial format")
+#
+#         return(
+#             float(income),
+#             float(expense),
+#             float(savings)
+#         )
 
-        '''
 
-        The commented out steps were giving pattern discrepancy, overall matching
-        was correct , but the starting structure was from 0,0,0 and not given
-        financial data.
-        '''
+def extract_financials(record):
 
-        income = re.search(r"Income:\s*(\d+)", text)
-        expense = re.search(r"Expense:\s*(\d+)", text)
-        savings = re.search(r"Savings:\s*(\d+)", text)
+    try:
+        text = record.page_content if hasattr(record, "page_content") else str(record)
 
-        # matches = re.findall(
-        #     r"Income:\s*(\d).*Expense:\s*(\d).*Savings:\s*(\d).*",
-        #     text,
-        #     re.DOTALL
-        # )
-        #
-        # return  [(float(i), float(e), float(s)) for i,e,s in matches]
+        import re
 
-        # if not income or not expense or not savings:
-        #     return None
+        income = re.search(r"income\s*[:\-]?\s*(\d+)", text, re.IGNORECASE)
+        expense = re.search(r"expense\s*[:\-]?\s*(\d+)", text, re.IGNORECASE)
+        savings = re.search(r"savings\s*[:\-]?\s*(\d+)", text, re.IGNORECASE)
 
-        if not income or not expense or not savings:
-            raise DataInsufficientError("Invalid financial format")
+        if not (income and expense and savings):
+            raise ValueError("Missing fields")
 
-        return(
-            float(income.group(1)),
-            float(expense.group(1)),
-            float(savings.group(1)),
-        )
+        return int(income.group(1)), int(expense.group(1)), int(savings.group(1))
+
+    except:
+        raise DataInsufficientError("Invalid financial format")
 
 
-def analyse_trend(current_profile, records):
+def analyse_trend(profile, records):
 
-    if len(records) < 2:
+    valid_records = []
+
+    for r in records:
+        try:
+            data = extract_financials(r)
+            valid_records.append(data)
+        except:
+            continue
+
+
+    if len(valid_records) < 2:
         return {
             "income_change": 0,
             "expense_change": 0,
             "savings_change": 0,
+            "status": "insufficient_data"
         }
 
-    past_nums = extract_financials(records[-2])
-    current_nums = extract_financials(records[-1])
+    past = valid_records[-2]
+    current = valid_records[-1]
 
-    #Single tuple entry in List of Tuple
-    past_income, past_expense, past_savings = past_nums
-    current_income, current_expense, current_savings = current_nums
+    past_income, past_expense, past_savings = past
+    curr_income, curr_expense, curr_savings = current
 
-    trend = {
-        "income_change": current_income - past_income,
-        "expense_change": current_expense - past_expense,
-        "savings_change": current_savings - past_savings
+    def pct_change(old, new):
+        if old == 0:
+            return 0
+        return round((new - old) / old, 2)
+
+    return {
+        "income_change": pct_change(past_income, curr_income),
+        "expense_change": pct_change(past_expense, curr_expense),
+        "savings_change": pct_change(past_savings, curr_savings),
+        "status": "ok"
     }
-
-    # print("PAST NUMS:", past_nums)
-    # print("CURRENT NUMS:", current_nums)
-
-    return trend
 
 

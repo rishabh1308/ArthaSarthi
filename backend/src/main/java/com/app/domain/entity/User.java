@@ -24,11 +24,15 @@ public class User {
 
     private Integer age;
 
-    @Column(name = "created_at", insertable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", insertable = false, updatable = false)
+    @Column(name = "updated_at", updatable = false)
     private LocalDateTime updatedAt;
+
+    @Column(nullable = false)
+    private String password;
+
 
     public Long getId() {
         return id;
@@ -62,8 +66,27 @@ public class User {
         return createdAt;
     }
 
+    @PrePersist // always correct timestamps , without DB triggers
+    protected void onCreate(){
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate(){
+        this.updatedAt = LocalDateTime.now();
+    }
+
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

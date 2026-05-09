@@ -2,7 +2,7 @@ from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 
 embedding = OpenAIEmbeddings(
-    model_name="all-MiniLM-L6-v2"
+    model="text-embedding-3-small"
 )
 
 vector_DB = Chroma(

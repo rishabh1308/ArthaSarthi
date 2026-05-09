@@ -1,24 +1,47 @@
 from vector_store import vector_DB
+#
+#
+# def retrieve_records(user_id, limit = 5):
+#
+#
+#     docs = vector_DB.get(where={"user_id":user_id})
+#
+#     documents = docs.get('documents',[])
+#     metadatas = documents.get('metadata',[])
+#
+#     combined = list(zip(documents, metadatas))
+#
+#     valid_records = [meta for doc, meta in combined if "timestamp" in meta]
+#
+#     sorted_records = sorted(
+#         valid_records, key = lambda x: x.get("timestamp",0)
+#     )
+#
+#     return sorted_records[-limit:]
 
 
-def retrieve_records(user_id, limit = 5):
+def retrieve_records(user_id, limit=5):
 
+    docs = vector_DB.get(where={"user_id": user_id})
 
-    docs = vector_DB.get(where={"user_id":user_id})
+    documents = docs.get("documents", [])
+    metadatas = docs.get("metadatas", [])
 
-    documents = docs.get('documents',[])
-    metadatas = documents.get('metadata',[])
+    combined = []
 
-    combined = list(zip(documents, metadatas))
-
-    valid_records = [meta for doc, meta in combined if "timestamp" in meta]
+    for doc, meta in zip(documents, metadatas):
+        if meta and "timestamp" in meta:
+            combined.append({
+                "text": doc,
+                "metadata": meta
+            })
 
     sorted_records = sorted(
-        valid_records, key = lambda x: x.get("timestamp",0)
+        combined,
+        key=lambda x: x["metadata"].get("timestamp", 0)
     )
 
     return sorted_records[-limit:]
-
 
     # return "\n\n".join( doc.page_content for doc in docs)
 

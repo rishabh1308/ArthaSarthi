@@ -1,4 +1,4 @@
-package com.app.dto;
+package com.app.dto.request;
 
 // loosely coupling Transaction while adding.
 // DTO are used for API communication ; JSON -> DTO -> Service -> Repository -> DB
@@ -7,9 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-public class TransactionRequest {
-    @NotNull(message = "User ID is required")
-    private Long userId;
+public class TransactionRequestDTO {
+//    @NotNull(message = "User ID is required")
+//    private Long userId;
 
     @NotNull(message = "Amount required")
     @Positive(message = "Must be greater than 0")
@@ -24,9 +24,9 @@ public class TransactionRequest {
     @Size(max=200, message = "Description is too long")
     private String description;
 
-    public Long getUserId() { return userId; }
+//    public Long getUserId() { return userId; }
 
-    public void  setUserId(Long userId) { this.userId = userId; }
+//    public void  setUserId(Long userId) { this.userId = userId; }
 
     public Double getAmount() {
         return amount;

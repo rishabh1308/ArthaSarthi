@@ -1,3 +1,5 @@
+from typing import Dict, List, Any
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 from graph import build_graph
@@ -9,24 +11,19 @@ graph = build_graph()
 class ChatRequest(BaseModel):
     user_id:int
     message: str
-    profile: str
+    profile: Dict[str,Any]
+    goals: List[Dict[str,Any]] = []
 
 @app.post("/chat")
-def chat(request: ChatRequest):
+async def chat(request: ChatRequest):
     result = graph.invoke({
         "query": request.message,
         "profile": request.profile,
-        "user_id": request.user_id
+        "user_id": request.user_id,
+        "goals": request.goals
     })
 
-
-    store_chat_memory(
-        user_id=request.user_id,
-        query=request.message,
-        profile=request.profile,
-        response= result["response"]
-    )
-
     return {
-        "response": result["response"]
+        "response": result.get("response"),
+        "error": result.get("error")
     }
