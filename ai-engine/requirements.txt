@@ -1,8 +1,71 @@
+# FastAPI Backend
 fastapi
 uvicorn[standard]
+
+# OpenAI
+openai
+
+# LangChain Ecosystem
 langchain
+langchain-core
+langchain-community
 langchain-openai
-langchain-chroma
+
+# LangGraph
+langgraph
+
+# Vector Database
 chromadb
+
+# Embeddings & Tokenization
+tiktoken
+
+# Environment Variables
 python-dotenv
+
+# Data Validation
 pydantic
+
+# HTTP Requests
+requests
+httpx
+
+# Retry Handling
+tenacity
+
+# JSON Utilities
+orjson
+
+# Logging
+loguru
+
+# Numerical Utilities
+numpy
+pandas
+
+# Optional ML Utilities
+scikit-learn
+
+# Async Utilities
+aiohttp
+
+# Serialization
+PyYAML
+
+# Tokenizer / NLP Utilities
+regex
+
+# Database / Persistence
+sqlalchemy
+
+# Typing Support
+typing-extensions
+
+# CORS Support
+python-multipart
+
+# Production Server Utilities
+gunicorn
+
+# ChromaDB Dependencies
+duckdb
