@@ -8,7 +8,7 @@ embedding = OpenAIEmbeddings(
 vector_DB = Chroma(
     collection_name="financial_memory",
     embedding_function=embedding,
-    persist_directory="./chroma_db"
+    persist_directory="/tmp/chroma_db"
 )
 
 '''
