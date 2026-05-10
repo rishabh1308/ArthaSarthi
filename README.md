@@ -1,321 +1,529 @@
-# 💰 ArthaSarthi — AI-Powered Financial Advisor
+# ArthaSarthi – AI-Powered Personal Finance Intelligence Platform
 
-ArthaSarthi is a backend-first, AI-powered financial advisory system that analyzes user financial behavior and provides intelligent, personalized recommendations using rule-based logic and Generative AI.
+## Overview
 
-The system follows a **Backend → GenAI → Frontend** architecture, ensuring scalability, modularity, and real-world production readiness.
+ArthaSarthi is a full-stack AI-powered personal finance intelligence platform designed to help users manage transactions, analyze financial health, track goals, detect asset allocations, and receive AI-generated financial guidance.
+
+The system combines:
+
+* A scalable Spring Boot backend
+* A FastAPI-based AI engine
+* JWT authentication and secure APIs
+* Financial analytics and portfolio intelligence
+* AI-driven advisory workflows
+* Dockerized microservice architecture
+
+The platform is designed with production-style backend engineering principles including layered architecture, structured logging, centralized exception handling, RESTful APIs, Docker orchestration, Swagger/OpenAPI documentation, and modular service design.
 
 ---
 
-## 🚀 Vision
+# Core Features
 
-To build a smart financial assistant that:
+## Authentication & Security
 
-* Understands user spending patterns
-* Tracks financial health over time
-* Provides actionable, personalized financial advice
-* Uses **Generative AI (LLMs)** for intelligent reasoning
+* JWT-based authentication
+* User registration and login
+* Password encryption using BCrypt
+* Stateless authentication flow
+* Protected API architecture
+* Spring Security integration
 
 ---
 
-## 🏗️ System Architecture
+## Transaction Management
 
-```
-Frontend (React / Chat UI)
+Users can:
+
+* Create financial transactions
+* Categorize transactions
+* Track income and expenses
+* Maintain transaction history
+* Analyze spending behavior
+
+Supported transaction types:
+
+* CREDIT
+* DEBIT
+
+Examples:
+
+* Salary
+* Rent
+* Food
+* Investments
+* Crypto purchases
+* Gold ETF investments
+
+---
+
+## Financial Analysis Engine
+
+The backend performs automated financial analysis using user transactions.
+
+### Analysis includes:
+
+* Total income calculation
+* Total expense calculation
+* Savings computation
+* Expense-to-income ratio
+* Financial risk profiling
+
+### Risk Profiles
+
+* LOW
+* MEDIUM
+* HIGH
+
+The analysis engine also maintains historical financial profiles for tracking changes over time.
+
+---
+
+## Asset Detection & Portfolio Intelligence
+
+The platform automatically detects user asset classes from transaction metadata.
+
+### Supported asset categories:
+
+* Stocks
+* Mutual Funds
+* Crypto
+* Gold
+* Silver
+* Real Estate
+* Debt Instruments
+
+The asset engine uses keyword-based classification to infer portfolio composition and diversification.
+
+---
+
+## Goal Management System
+
+Users can create and manage financial goals.
+
+### Goal Features
+
+* Goal creation
+* Goal prioritization
+* Target amount tracking
+* Current amount tracking
+* Time horizon tracking
+* Goal status monitoring
+
+Examples:
+
+* Emergency Fund
+* Retirement Planning
+* House Purchase
+* Investment Corpus
+* Higher Education
+
+---
+
+## AI Financial Advisor
+
+ArthaSarthi integrates a FastAPI-based AI engine that generates contextual financial guidance.
+
+The AI advisory system uses:
+
+* Financial profile data
+* User goals
+* Asset allocations
+* Spending behavior
+* Savings trends
+* Portfolio diversification insights
+
+### AI-generated outputs include:
+
+* Financial health summaries
+* Emergency fund recommendations
+* Diversification guidance
+* Liquidity analysis
+* Goal-based planning
+* Savings optimization
+* Risk-aware investment suggestions
+
+---
+
+## Advice History Tracking
+
+All AI-generated advice is stored for historical tracking.
+
+The system maintains:
+
+* Query history
+* AI responses
+* Generation timestamps
+* Associated user profiles
+* Advice generation source tracking
+
+This creates long-term financial advisory memory for future analysis.
+
+---
+
+# System Architecture
+
+## High-Level Architecture
+
+```text
+Frontend / API Client
         ↓
-Spring Boot Backend (Core Logic)
+Spring Boot Backend
         ↓
-GenAI Layer (LLM Integration)
+AI Engine (FastAPI)
         ↓
-Financial Logic + Rules Engine
+OpenAI API
+
+Spring Boot Backend
         ↓
-Database Layer (MariaDB + MongoDB)
+MySQL Database
+
+AI Engine
+        ↓
+ChromaDB Vector Storage
 ```
 
 ---
 
-## ⚙️ Tech Stack
+## Backend Architecture
 
-### 🔹 Backend
+The backend follows layered architecture principles.
 
-* Java
-* Spring Boot
-* Spring Data JPA
-* REST APIs
-
-### 🔹 Frontend (Planned)
-
-* React.js
-* Tailwind CSS
-* Chat-based UI
-
-### 🔹 Database
-
-* MariaDB (Relational data)
-* MongoDB (Chat history & AI context)
-
-### 🔹 AI / GenAI
-
-* OpenAI API / LLaMA (planned)
-* Prompt Engineering
-* Context-aware reasoning
-
-### 🔹 DevOps & Tools
-
-* Maven
-* Docker (planned)
-* Git & GitHub
-* IntelliJ IDEA
-
----
-
-## 📂 Project Structure
-
-```
-controller → API endpoints  
-service → business logic  
-repository → database access  
-entity → database models  
-dto → request/response  
-enums → constants  
-exceptions → error handling  
+```text
+Controller Layer
+        ↓
+Service Layer
+        ↓
+Repository Layer
+        ↓
+Database
 ```
 
----
+### Controller Layer
 
-## 🔌 Core Features
+Handles:
 
-### 1️⃣ Transaction Management
+* API routing
+* Request validation
+* Response formatting
+* Swagger documentation
 
-* Add income & expense transactions
-* Categorize financial data
-* Maintain user history
+### Service Layer
 
----
+Handles:
 
-### 2️⃣ Financial Analysis Engine
+* Business logic
+* Financial calculations
+* AI integration
+* Transaction workflows
+* Goal workflows
 
-* Computes:
+### Repository Layer
 
-    * Total income
-    * Total expenses
-    * Savings
-* Generates insights:
+Handles:
 
-    * Low savings alerts
-    * High expense warnings
-
----
-
-### 3️⃣ Intelligent Advice System
-
-* Rule-based recommendations
-* Future GenAI-based insights:
-
-    * Personalized advice
-    * Financial planning suggestions
+* Database access
+* JPA operations
+* Entity persistence
 
 ---
 
-### 4️⃣ AI Chat System (Upcoming)
+# Technology Stack
 
-* Conversational financial assistant
-* Context-aware responses
-* Memory using MongoDB
+| Layer            | Technology      |
+| ---------------- | --------------- |
+| Backend          | Spring Boot     |
+| AI Engine        | FastAPI         |
+| Database         | MySQL           |
+| ORM              | Spring Data JPA |
+| Authentication   | JWT             |
+| Security         | Spring Security |
+| Documentation    | Swagger/OpenAPI |
+| Containerization | Docker          |
+| Orchestration    | Docker Compose  |
+| Logging          | SLF4J + Logback |
+| AI Integration   | OpenAI API      |
+| Vector Storage   | ChromaDB        |
+| Build Tool       | Maven           |
 
 ---
 
-## 🔌 API Endpoints
+# REST APIs
 
-### ➤ Add Transaction
+## Authentication APIs
 
+### Register User
+
+```http
+POST /auth/register
 ```
-POST /transactions
-```
 
-```json
-{
-  "userId": 1,
-  "amount": 10000,
-  "type": "INCOME",
-  "category": "Salary",
-  "description": "Monthly salary"
-}
+### Login User
+
+```http
+POST /auth/login
 ```
 
 ---
 
-### ➤ Get Financial Analysis
+## Transaction APIs
 
+### Add Transaction
+
+```http
+POST /users/{userId}/transactions
 ```
-GET /analysis/{userId}
-```
 
-**Response:**
+### Get User Transactions
 
-```json
-{
-  "income": 10000,
-  "expense": 4000,
-  "savings": 6000,
-  "advice": [
-    "Reduce unnecessary expenses"
-  ]
-}
+```http
+GET /users/{userId}/transactions
 ```
 
 ---
 
-## 🧠 GenAI Integration 
+## Financial Analysis APIs
 
-ArthaSarthi will integrate LLMs to:
+### Analyze Financial Profile
 
-* Interpret financial data
-* Provide human-like advice
-* Answer user queries conversationally
-* Perform long-term financial planning
+```http
+GET /users/{userId}/analysis
+```
+
+---
+
+## Asset APIs
+
+### Get Asset Allocation
+
+```http
+GET /users/{userId}/assets
+```
+
+---
+
+## Goal APIs
+
+### Create Goal
+
+```http
+POST /users/{userId}/goals
+```
+
+### Get Goals
+
+```http
+GET /users/{userId}/goals
+```
+
+---
+
+## AI Advice APIs
+
+### Generate AI Advice
+
+```http
+POST /api/advice
+```
+
+### Get Advice History
+
+```http
+GET /api/advice/{userId}/history
+```
+
+---
+
+## User Profile APIs
+
+### Create Financial Profile
+
+```http
+POST /users/{userId}/profile
+```
+
+### Get Financial Profile
+
+```http
+GET /users/{userId}/profile
+```
+
+### Update Financial Profile
+
+```http
+PUT /users/{userId}/profile
+```
+
+---
+
+# Swagger/OpenAPI Documentation
+
+Swagger UI is integrated for interactive API exploration and testing.
+
+### Swagger URL
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+### OpenAPI JSON
+
+```text
+http://localhost:8080/v3/api-docs
+```
+
+Features include:
+
+* Live API testing
+* Request/response schemas
+* JWT authentication support
+* Grouped API documentation
+* Interactive endpoint execution
+
+---
+
+# Dockerized Infrastructure
+
+The entire platform is containerized using Docker.
+
+## Services
+
+### Backend Service
+
+* Spring Boot API server
+* Runs on port 8080
+
+### AI Engine Service
+
+* FastAPI AI service
+* Runs on port 8001
+
+### MySQL Service
+
+* Persistent relational database
+* Docker volume support
+
+### ChromaDB Volume
+
+* Persistent vector storage
+
+---
+
+# Local Development Setup
+
+## Clone Repository
+
+```bash
+git clone <repository-url>
+cd ArthaSarthi
+```
+
+---
+
+## Configure Environment Variables
+
+Create `.env`
+
+```env
+JWT_SECRET=your_secret_key
+OPENAI_API_KEY=your_openai_api_key
+```
+
+---
+
+## Start Entire System
+
+```bash
+docker compose up --build
+```
+
+---
+
+## Access Services
+
+| Service    | URL                                                                                        |
+| ---------- | ------------------------------------------------------------------------------------------ |
+| Backend    | [http://localhost:8080](http://localhost:8080)                                             |
+| AI Engine  | [http://localhost:8001](http://localhost:8001)                                             |
+| Swagger UI | [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html) |
+
+---
+
+# Logging & Observability
+
+The platform includes structured production-style logging.
+
+### Features
+
+* Request lifecycle logging
+* Controller-level tracing
+* Service-level business logs
+* Error logging
+* Request timing filters
+* Structured API responses
+
+Example log:
+
+```text
+POST /auth/login completed in 182 ms with status 200
+```
+
+---
+
+# API Response Standardization
+
+All APIs follow a consistent response structure.
 
 Example:
 
-```
-User: "Can I afford a vacation next month?"
-AI: "Based on your savings and expense patterns..."
-```
-
----
-
-## 🖥️ Frontend
-
-* React-based dashboard
-* Financial summary visualization
-* Chat interface for AI interaction
-* Responsive UI
-
----
-
-## 🐳 Containerization 
-
-The application will be containerized using Docker:
-
-* Backend container (Spring Boot)
-* Database containers (MariaDB, MongoDB)
-* Frontend container (React)
-
-### Example:
-
-```
-docker-compose up --build
-```
-
-Benefits:
-
-* Easy setup
-* Environment consistency
-* Scalable deployment
-
----
-
-## ☁️ Deployment 
-
-Deployment strategy:
-
-* Backend → AWS / Render / Railway
-* Database → Managed DB services
-* Frontend → Vercel / Netlify
-* Docker-based deployment pipeline
-
-CI/CD (future):
-
-* GitHub Actions
-* Automated builds & deployments
-
----
-
-## 🔄 Development Roadmap
-
-### ✅ Phase 1 
-
-* Backend architecture
-* Transaction APIs
-* Financial analysis
-
-### 🚧 Phase 2 
-
-* Financial profile system
-* Advice history tracking
-
-### 🔜 Phase 3
-
-* GenAI integration
-* Chat system
-
-### 🔮 Phase 4
-
-* Frontend development
-* Deployment & scaling
-
----
-
-## ⚙️ Setup Instructions
-
-1. Clone repository:
-
-```
-git clone https://github.com/<your-username>/ArthaSarthi.git
-```
-
-2. Navigate:
-
-```
-cd ArthaSarthi/backend
-```
-
-3. Configure DB:
-
-```
-application.properties
-```
-
-4. Run backend:
-
-```
-mvn spring-boot:run
+```json
+{
+  "success": true,
+  "message": "Transaction added successfully",
+  "data": {
+    "transactionId": 1
+  },
+  "timestamp": "2026-05-09T18:00:00"
+}
 ```
 
 ---
 
-## 📌 Key Design Principles
+# Security Features
 
-* Clean Architecture
-* Separation of Concerns
-* Backend-first development
-* AI-ready system design
-* Scalable microservice-friendly structure
-
----
-
-## ⭐ Why This Project Stands Out
-
-* Combines **Backend + AI + System Design**
-* Real-world fintech use case
-* Designed for **GenAI integration from day one**
-* Extensible to full-stack production system
+* JWT authentication
+* BCrypt password hashing
+* Stateless authentication
+* Protected endpoints
+* Structured validation
+* Layered architecture
+* Request filtering
 
 ---
 
-## 👤 Author
+# Scalability Considerations
 
-**Rishabh Srivastava**<br>
-Backend Developer | AI Enthusiast
+The system architecture is designed for extensibility and future scalability.
+
+Potential future enhancements include:
+
+* Retrieval-Augmented Generation (RAG)
+* Personalized AI memory
+* Portfolio optimization models
+* ML-based risk prediction
+* Kafka-based event streaming
+* Redis caching
+* Notification system
+* Real-time analytics
+* Multi-user financial collaboration
+* Budget forecasting
+* AI-powered anomaly detection
 
 ---
 
-## 📬 Future Scope
+# Engineering Highlights
 
-* Investment recommendations
-* Credit scoring system
-* Budget optimization
-* Portfolio management system
-
----
-
-> 🚀 ArthaSarthi aims to bridge financial data with intelligent decision-making using Backend Engineering and Generative AI.
+* Layered backend architecture
+* Microservice-style AI separation
+* Dockerized deployment
+* Structured logging
+* RESTful API design
