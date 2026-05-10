@@ -24,3 +24,5 @@ jwt:
 logging:
   level:
     org.springframework.web: DEBUG
+    root: INFO
+    com.app: DEBUG

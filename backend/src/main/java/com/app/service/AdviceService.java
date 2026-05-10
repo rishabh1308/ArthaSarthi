@@ -5,6 +5,7 @@ import com.app.domain.entity.FinancialProfile;
 import com.app.domain.entity.Goal;
 import com.app.domain.entity.User;
 import com.app.domain.enums.AdviceGeneratedBy;
+import com.app.exceptions.ResourceNotFoundException;
 import com.app.repository.AdviceHistoryRepository;
 import com.app.repository.FinancialProfileRepository;
 import com.app.repository.GoalRepository;
@@ -36,8 +37,8 @@ public class AdviceService {
     @Autowired
     private GoalRepository goalRepository;
 
-    private final RestTemplate restTemplate =
-            new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Value("${ai.service.url}")
     private String aiUrl;
@@ -175,7 +176,7 @@ public class AdviceService {
                                 userId
                         );
 
-                        return new RuntimeException(
+                        return new ResourceNotFoundException(
                                 "User not found"
                         );
                     });
@@ -236,5 +237,29 @@ public class AdviceService {
 
             return "ERROR: " + e.getMessage();
         }
+    }
+
+    public List<AdviceHistory> getAdviceHistory(
+            Long userId
+    ) {
+
+        log.info(
+                "Fetching advice history for user {}",
+                userId
+        );
+
+        List<AdviceHistory> history =
+                adviceHistoryRepository
+                        .findByUserIdOrderByCreatedAtDesc(
+                                userId
+                        );
+
+        log.debug(
+                "Fetched {} advice history records for user {}",
+                history.size(),
+                userId
+        );
+
+        return history;
     }
 }

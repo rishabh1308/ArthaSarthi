@@ -167,53 +167,31 @@ public class UserService implements UserDetailsService {
     }
 
     public FinancialProfileResponseDTO getProfile(
-            Long userId,
-            FinancialProfileRequestDTO dto
+            Long userId
     ){
 
         log.info(
-                "Creating profile for user {}",
+                "Fetching financial profile for user {}",
                 userId
         );
 
-        if(financialProfileRepository
-                .findAllByUserId(userId)
-                .isPresent()){
-
-            log.warn(
-                    "Profile already exists for user {}",
-                    userId
-            );
-
-            throw new RuntimeException(
-                    "Profile already exists. Use UPDATE instead"
-            );
-        }
-
         FinancialProfile profile =
-                new FinancialProfile();
-
-        profile.setUser(
-                userRepository.findUserById(userId)
+                financialProfileRepository
+                        .findAllByUserId(userId)
                         .orElseThrow(() -> {
 
                             log.error(
-                                    "User not found while creating profile. User ID: {}",
+                                    "Financial profile not found for user {}",
                                     userId
                             );
 
                             return new RuntimeException(
                                     "Profile not found"
                             );
-                        })
-        );
-
-        mapDtoToEntity(profile, dto);
-
-        financialProfileRepository.save(profile);
+                        });
 
         log.info(
-                "Profile created successfully for user {}",
+                "Financial profile fetched successfully for user {}",
                 userId
         );
 
