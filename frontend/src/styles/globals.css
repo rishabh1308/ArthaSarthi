@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream-50 text-slate-ink antialiased;
+  }
+
+  ::selection {
+    @apply bg-sky-light/60 text-slate-ink;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/60;
+  }
+
+  .glass-strong {
+    @apply bg-white/85 backdrop-blur-2xl border border-white/80;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-sky-deep via-sky to-teal-deep bg-clip-text text-transparent;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-card;
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-sky-soft/80 bg-white/80 px-4 py-3 text-sm text-slate-ink placeholder:text-slate-light outline-none transition-all focus:border-sky focus:ring-2 focus:ring-sky/20;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-deep to-sky px-6 py-3 text-sm font-semibold text-white shadow-soft transition-all hover:shadow-glow hover:brightness-105 active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-sky-light/60 bg-white/80 px-6 py-3 text-sm font-semibold text-slate-ink transition-all hover:bg-sky-soft/50 active:scale-[0.98];
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded-lg bg-sky-soft/60;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #B8DFF5 transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #B8DFF5;
+    border-radius: 999px;
+  }
+}
