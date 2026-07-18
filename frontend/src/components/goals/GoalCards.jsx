@@ -10,6 +10,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { formatCurrency, getGoalProgress } from "@/utils/formatters";
 import { useCreateGoal } from "@/hooks/useFinanceData";
 import toast from "react-hot-toast";
+import { extractError } from "@/lib/api";
 
 export function GoalCards({ goals, userId }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -43,7 +44,7 @@ export function GoalCards({ goals, userId }) {
         priority: "MEDIUM",
       });
     } catch (err) {
-      toast.error(err.message || "Failed to create goal");
+      toast.error(extractError(err));
     }
   };
 

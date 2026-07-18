@@ -30,12 +30,13 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Variable | Description |
 |----------|-------------|
-| `NEXT_PUBLIC_API_URL` | Backend base URL (default: Railway production) |
+| `BACKEND_API_URL` | Server-side backend destination for the `/backend-api` proxy |
+| `NEXT_PUBLIC_API_URL` | Optional direct backend URL (requires backend CORS) |
 
 Example `.env.local`:
 
 ```
-NEXT_PUBLIC_API_URL=https://arthasarthi-backend-production.up.railway.app
+BACKEND_API_URL=https://your-backend.example.com
 ```
 
 ## Pages
@@ -90,7 +91,8 @@ If you registered via an older flow without user ID, set it once under **Setting
 
 ## API Integration
 
-All endpoints use: `https://arthasarthi-backend-production.up.railway.app`
+Browser requests use the same-origin `/backend-api` proxy. Next.js forwards them
+to `BACKEND_API_URL`, avoiding browser CORS coupling.
 
 - Auth: `/auth/login`, `/auth/register`
 - Profile: `/users/{id}/profile`
@@ -105,7 +107,7 @@ All endpoints use: `https://arthasarthi-backend-production.up.railway.app`
 1. Push `frontend/` to GitHub
 2. Import project in [Vercel](https://vercel.com)
 3. Set root directory to `frontend`
-4. Add env: `NEXT_PUBLIC_API_URL`
+4. Add env: `BACKEND_API_URL`
 5. Deploy
 
 ```bash

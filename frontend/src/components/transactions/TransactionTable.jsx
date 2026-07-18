@@ -16,6 +16,7 @@ import {
 } from "@/utils/formatters";
 import { useCreateTransaction } from "@/hooks/useFinanceData";
 import toast from "react-hot-toast";
+import { extractError } from "@/lib/api";
 
 export function TransactionTable({ transactions, userId }) {
   const [search, setSearch] = useState("");
@@ -24,7 +25,7 @@ export function TransactionTable({ transactions, userId }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState({
     amount: "",
-    type: "EXPENSE",
+    type: "DEBIT",
     category: "Food",
     description: "",
   });
@@ -63,9 +64,9 @@ export function TransactionTable({ transactions, userId }) {
       });
       toast.success("Transaction added");
       setModalOpen(false);
-      setForm({ amount: "", type: "EXPENSE", category: "Food", description: "" });
+      setForm({ amount: "", type: "DEBIT", category: "Food", description: "" });
     } catch (err) {
-      toast.error(err.message || "Failed to add transaction");
+      toast.error(extractError(err));
     }
   };
 
@@ -90,8 +91,8 @@ export function TransactionTable({ transactions, userId }) {
               onChange={(e) => setTypeFilter(e.target.value)}
             >
               <option value="ALL">All types</option>
-              <option value="INCOME">Income</option>
-              <option value="EXPENSE">Expense</option>
+              <option value="CREDIT">Income</option>
+              <option value="DEBIT">Expense</option>
             </select>
             <select
               className="input-field w-auto py-2 text-sm"
@@ -156,10 +157,10 @@ export function TransactionTable({ transactions, userId }) {
                     </td>
                     <td
                       className={`py-4 text-right font-semibold ${
-                        t.type === "INCOME" ? "text-teal-deep" : "text-slate-ink"
+                        t.type === "CREDIT" ? "text-teal-deep" : "text-slate-ink"
                       }`}
                     >
-                      {t.type === "INCOME" ? "+" : "-"}
+                      {t.type === "CREDIT" ? "+" : "-"}
                       {formatCurrency(t.amount)}
                     </td>
                   </motion.tr>
@@ -185,8 +186,8 @@ export function TransactionTable({ transactions, userId }) {
             value={form.type}
             onChange={(e) => setForm({ ...form, type: e.target.value })}
           >
-            <option value="EXPENSE">Expense</option>
-            <option value="INCOME">Income</option>
+            <option value="DEBIT">Expense</option>
+            <option value="CREDIT">Income</option>
           </Select>
           <Select
             label="Category"

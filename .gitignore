@@ -11,6 +11,8 @@ Thumbs.db
 
 .env
 .env.*
+!.env.example
+!.env.*.example
 
 .mvn/wrapper/maven-wrapper.jar
 
@@ -26,3 +28,25 @@ application.yml
 
 *.cmd
 node_modules
+
+# JavaScript / Next.js build output
+.next/
+out/
+coverage/
+.vercel/
+
+# Python virtual environments and generated files
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# AI-engine runtime data
+ai-engine/chroma_db/
+
+# IDE settings
+.vscode/

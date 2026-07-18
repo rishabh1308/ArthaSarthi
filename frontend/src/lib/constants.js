@@ -1,6 +1,6 @@
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
-  "https://arthasarthi-backend-production.up.railway.app";
+  "/backend-api";
 
 export const STORAGE_KEYS = {
   TOKEN: "arthasarthi_token",

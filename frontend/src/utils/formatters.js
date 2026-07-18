@@ -108,7 +108,7 @@ export function getGoalProgress(current, target) {
 export function generateSparklineData(transactions) {
   const months = {};
   transactions?.forEach((t) => {
-    if (t.type === "EXPENSE" && t.transactionDate) {
+    if (t.type === "DEBIT" && t.transactionDate) {
       const key = t.transactionDate.slice(0, 7);
       months[key] = (months[key] || 0) + (t.amount || 0);
     }
@@ -126,7 +126,7 @@ export function generateSparklineData(transactions) {
 export function groupTransactionsByCategory(transactions) {
   const groups = {};
   transactions?.forEach((t) => {
-    if (t.type === "EXPENSE") {
+    if (t.type === "DEBIT") {
       const cat = t.category || "Other";
       groups[cat] = (groups[cat] || 0) + (t.amount || 0);
     }

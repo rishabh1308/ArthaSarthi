@@ -124,12 +124,12 @@ export function RecentTransactions({ transactions }) {
               <div className="text-right">
                 <span
                   className={
-                    t.type === "INCOME"
+                    t.type === "CREDIT"
                       ? "font-semibold text-teal-deep"
                       : "font-semibold text-slate-ink"
                   }
                 >
-                  {t.type === "INCOME" ? "+" : "-"}
+                  {t.type === "CREDIT" ? "+" : "-"}
                   {formatCurrency(t.amount)}
                 </span>
                 <span

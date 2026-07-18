@@ -1,5 +1,9 @@
 # ArthaSarthi – AI-Powered Personal Finance Intelligence Platform
 
+## Live Demo
+
+The frontend is deployed on Vercel: [ArthaSarthi Live Demo](https://frontend-rishabh1308s-projects.vercel.app)
+
 ## Overview
 
 ArthaSarthi is a full-stack AI-powered personal finance intelligence platform designed to help users manage transactions, analyze financial health, track goals, detect asset allocations, and receive AI-generated financial guidance.
@@ -14,6 +18,18 @@ The system combines:
 * Dockerized microservice architecture
 
 The platform is designed with production-style backend engineering principles including layered architecture, structured logging, centralized exception handling, RESTful APIs, Docker orchestration, Swagger/OpenAPI documentation, and modular service design.
+
+---
+
+## Screenshots
+
+| Landing page | Features |
+| --- | --- |
+| ![ArthaSarthi landing page](docs/screenshots/landing-hero.png) | ![ArthaSarthi feature overview](docs/screenshots/features.png) |
+| AI advisor and analytics | Testimonials and call to action |
+| ![AI advisor and analytics preview](docs/screenshots/advisor-and-analytics.png) | ![Testimonials and call to action](docs/screenshots/testimonials-and-cta.png) |
+| AI Advisor | Financial Profile |
+| ![AI Advisor screen](docs/screenshots/ai-advisor.png) | ![Financial Profile screen](docs/screenshots/financial-profile.png) |
 
 ---
 
